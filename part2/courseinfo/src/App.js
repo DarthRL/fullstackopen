@@ -17,20 +17,23 @@ const Content = (props) => (
     <Part name={props.parts[2]["name"]} exercises={props.parts[2]["exercises"]} />
   </>
 )
-/* 
-const Total = (props) => (
-  <>
-    <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
-  </>
-) */
+
+const Total = function ({ parts }) {
+  const total = parts.reduce((s, p) => s + p["exercises"], 0)
+  return (
+    <>
+      <p>Number of exercises {total}</p>
+    </>
+  )
+}
 
 
-const Course = ({course}) => {
+const Course = ({ course }) => {
   return (
     <div>
       <Header name={course.name} />
       <Content parts={course.parts} />
-      {/* <Total exercises1={course.parts[0]["exercises"]} exercises2={course.parts[1]["exercises"]} exercises3={course.parts[2]["exercises"]} /> */}
+      <Total parts={course.parts} />
     </div>
   )
 }
