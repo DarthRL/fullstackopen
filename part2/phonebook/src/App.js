@@ -29,7 +29,10 @@ const App = () => {
     event.preventDefault()
     persons.some(person => person["name"] === newName)
       ? alert(`${newName} is already added to phonebook`)
-      : setPersons(persons.concat({ name: newName, number: newNumber }))
+      : axios
+          .post('http://localhost:3001/persons', { name: newName, number: newNumber})
+          .then(response => setPersons(persons.concat(response.data)))
+      
   }
 
   const [filter, setFilter] = useState('')
