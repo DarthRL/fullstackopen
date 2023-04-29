@@ -11,6 +11,7 @@ const App = () => {
     personService
       .getAll()
       .then(initialPersons => {
+        //setPersons(initialPersons.concat({ "name": "aaa", "number": 111111, "id": 11111 }))
         setPersons(initialPersons)
       })
   }, [])
@@ -32,7 +33,6 @@ const App = () => {
       : personService
         .create({ name: newName, number: newNumber })
         .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
-
   }
 
   const [filter, setFilter] = useState('')
@@ -45,7 +45,14 @@ const App = () => {
     ? persons.filter(person => person["name"].toLowerCase().includes(filter.toLowerCase()))
     : persons
 
-
+  const handleDelete = (id) => {
+    if (window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)) {
+      personService
+        .deletePerson(id)
+        .catch(alert(`${persons.find(person => person.id === id).name} doesn't exist`))
+      setPersons(persons.filter(person => person.id !== id))
+    }
+  }
 
   return (
     <div>
@@ -54,7 +61,7 @@ const App = () => {
       <h3>Add a new</h3>
       <PersonForm name={newName} onNameChange={handleNameChange} number={newNumber} onNumberChange={handleNumberChange} onSubmit={addPerson} />
       <h3>Numbers</h3>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} onDelete={handleDelete} />
 
     </div>
   )
