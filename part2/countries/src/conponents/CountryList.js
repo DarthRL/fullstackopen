@@ -22,7 +22,7 @@ const CountryList = ({ filtered, handleShow }) => {
   else if (filtered.length && filtered.length <= 10) {
     return (
       <div>
-        {filtered.map(country => <div key={country.name.common}>{country.name.common} <button onClick={() => handleShow(country)}>show</button>
+        {filtered.map(country => <div key={country.name.common}>{country.name.common}
         </div>)}
       </div>
     )

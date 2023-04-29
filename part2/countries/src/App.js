@@ -19,21 +19,16 @@ const App = () => {
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
-    setFiltered(filter
-      ? countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
-      : countries)
   }
 
-  const [filtered, setFiltered] = useState([])
-
-  const handleShow = (country) => {
-    setFiltered([country])
-  }
+  const filtered = filter
+  ? countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
+  : countries
 
   return (
     <div>
       <Filter text="find countries" filter={filter} handleOnChange={handleFilterChange} />
-      <CountryList filtered={filtered} handleShow={handleShow}/>
+      <CountryList filtered={filtered}/>
 
     </div>
   )
