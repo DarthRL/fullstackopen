@@ -4,7 +4,7 @@ const Person = ({ person, onDelete }) => (
 
 const Persons = ({ persons, onDelete }) => (
     <div>
-        {persons.map(person => <Person key={person["name"]} person={person} onDelete={onDelete} />)}
+        {persons.map(person => <Person key={person.name} person={person} onDelete={onDelete} />)}
     </div>
 )
 export default Persons
