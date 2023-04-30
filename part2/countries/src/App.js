@@ -25,11 +25,14 @@ const App = () => {
   ? countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
   : countries
 
+  const handleShow = (name) => {
+    setFilter(name)
+  }
+
   return (
     <div>
       <Filter text="find countries" filter={filter} handleOnChange={handleFilterChange} />
-      <CountryList filtered={filtered}/>
-
+      <CountryList filtered={filtered} handleShow={handleShow}/>
     </div>
   )
 }
