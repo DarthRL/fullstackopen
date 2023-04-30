@@ -1,15 +1,22 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const Weather = ({ location }) => {
   const [weather, setWeather] = useState(null)
-  const weatherBaseUrl = "https://api.openweathermap.org/data/2.5/weather?q="
+  useEffect(() => {
+    const weatherBaseUrl = "https://api.openweathermap.org/data/2.5/weather"
+    const api_key = process.env.REACT_APP_API_KEY
+    const params = {
+      q: location,
+      units: "metric",
+      appid: api_key
+    }
+    axios.get(weatherBaseUrl, { params }).then(response => response.data)
+      .then(response => setWeather(response))
+  }, [location])
+  if (!weather) return null
   const picBaseUrl = "https://openweathermap.org/img/wn/"
   const picEndUrl = "@2x.png"
-  const api_key = process.env.REACT_APP_API_KEY
-  axios.get(`${weatherBaseUrl}${location}&units=metric&appid=${api_key}`).then(response => response.data)
-    .then(response => setWeather(response))
-  if (!weather) return null
   const icon = `${picBaseUrl}${weather.weather[0].icon}${picEndUrl}`
   return (
     <div>
@@ -24,7 +31,7 @@ const Weather = ({ location }) => {
 const CountryList = ({ filtered, handleShow }) => {
   if (filtered.length === 1) {
     const country = filtered[0]
-    const capital = country.capital
+    const capital = country.capital[0]
     const languages = country.languages
     const flag = country.flags.png
     return (
@@ -36,7 +43,7 @@ const CountryList = ({ filtered, handleShow }) => {
           {Object.keys(languages).map(key => <li key={key} >{languages[key]}</li>)}
         </ul>
         <img alt="flag" src={flag} />
-      <Weather location={capital} />
+        <Weather location={capital} />
       </div>
     )
   }
