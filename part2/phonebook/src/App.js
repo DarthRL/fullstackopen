@@ -47,6 +47,9 @@ const App = () => {
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
             showMessage(`Changed ${newName}`, "notification")
           })
+          .catch(error => {
+            showMessage(error.response.data.error, "error")
+          })
       }
     }
     else personService
@@ -54,6 +57,9 @@ const App = () => {
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
         showMessage(`Added ${newName}`, "notification")
+      })
+      .catch(error => {
+        showMessage(error.response.data.error, "error")
       })
   }
 
@@ -77,7 +83,7 @@ const App = () => {
           showMessage(text, "error")
         })
       setPersons(persons.filter(person => person.id !== id))
-      showMessage(`Deleted ${name}`, "notification" )
+      showMessage(`Deleted ${name}`, "notification")
     }
   }
 
